@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h2>➕ Nuevo Producto - Persistencia Semana 13</h2>
+  
+  <form method="POST">
+    <div class="mb-3">
+      <label class="form-label">Nombre:</label>
+      <input type="text" class="form-control" name="nombre" required>
+    </div>
+    
+    <div class="mb-3">
+      <label class="form-label">Precio:</label>
+      <input type="number" step="0.01" class="form-control" name="precio" required>
+    </div>
+    
+    <div class="mb-3">
+      <label class="form-label">Cantidad:</label>
+      <input type="number" class="form-control" name="cantidad" required>
+    </div>
+    
+    <button type="submit" class="btn btn-success">💾 Guardar en TXT/JSON/CSV/SQLite</button>
+    <a href="/datos" class="btn btn-secondary">Ver Datos</a>
+  </form>
+</div>
+{% endblock %}

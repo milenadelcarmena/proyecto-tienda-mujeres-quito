@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">📊 Datos Persistidos - Semana 13</h1>
+  
+  <div class="row">
+    <!-- TXT -->
+    <div class="col-md-6 mb-4">
+      <h3>📄 datos.txt</h3>
+      <pre class="bg-light p-3 rounded">{{ lineas_txt|join('') or 'Vacío' }}</pre>
+    </div>
+    
+    <!-- JSON -->
+    <div class="col-md-6 mb-4">
+      <h3>📊 datos.json</h3>
+      {% if datos_json %}
+        {% for item in datos_json %}
+          <div class="card mb-2">
+            <div class="card-body">
+              ID: {{ item.id }} - {{ item.nombre }} (S/ {{ item.precio }} x {{ item.cantidad }})
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <pre class="bg-light p-3 rounded">[] (vacío)</pre>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- CSV -->
+    <div class="col-md-6 mb-4">
+      <h3>📈 datos.csv</h3>
+      {% if datos_csv %}
+        {% for item in datos_csv %}
+          <div class="card mb-2">
+            <div class="card-body">
+              ID: {{ item.id }} - {{ item.nombre }} (S/ {{ item.precio }} x {{ item.cantidad }})
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <pre class="bg-light p-3 rounded">Solo cabecera (vacío)</pre>
+      {% endif %}
+    </div>
+    
+    <!-- SQLite -->
+    <div class="col-md-6 mb-4">
+      <h3>🗄️ SQLite (SQLAlchemy)</h3>
+      {% if productos %}
+        {% for prod in productos %}
+          <div class="card mb-2">
+            <div class="card-body">
+              ID: {{ prod.id_producto }} - {{ prod.nombre }} (S/ {{ prod.precio }} x {{ prod.cantidad }})
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <pre class="bg-light p-3 rounded">Sin productos</pre>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
