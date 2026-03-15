@@ -1,86 +1,40 @@
-{% extends "base.html" %}
-{% block title %}Inventario{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🏪 Tienda Mujeres Quito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hero { background: linear-gradient(135deg, #ff9a9e, #fecfef); padding: 3rem 0; }
+        .card-producto { transition: transform 0.3s; }
+        .card-producto:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1 class="display-4 text-center fw-bold text-dark mb-4">🏪 TIENDA MUJERES QUITO</h1>
+            <p class="lead text-center">SEM 14 ✅ {{ total }} Productos Disponibles</p>
+        </div>
+    </div>
 
-{% block content %}
-<div class="row">
-    <!-- TÍTULO Y TOTALES -->
-    <div class="col-12 mb-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="display-5 fw-bold text-success">
-                <i class="fas fa-boxes-stacked me-3"></i>Gestión de Inventario
-            </h1>
-            <div class="text-end">
-                <div class="h3 text-success mb-1">{{ total_productos }} productos</div>
-                <div class="h4 text-muted">💰 ${{ "%.2f"|format(valor_total) }}</div>
+    <div class="container my-5">
+        <div class="row">
+            {% for producto in productos %}
+            <div class="col-md-3 mb-4">
+                <div class="card card-producto shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold">{{ producto.nombre }}</h5>
+                        <p class="text-success fs-4 fw-bold">${{ "%.2f"|format(producto.precio) }}</p>
+                        <p class="badge bg-primary fs-6">Stock: {{ producto.cantidad }}</p>
+                    </div>
+                </div>
             </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="/mysql_test" class="btn btn-success btn-lg">🔍 Probar MySQL</a>
         </div>
     </div>
+</body>
+</html>
 
-    <!-- 🚀 SUBMENÚ 100% COMPLETO - 5 OPERACIONES REQUISITO ING -->
-    <div class="col-12 col-md-4 mb-4">
-        <div class="dropdown">
-            <button class="btn btn-success btn-lg w-100 dropdown-toggle shadow-lg" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-cogs me-2"></i>🚀 OPERACIONES INVENTARIO
-            </button>
-            <ul class="dropdown-menu w-100 shadow">
-                <li><a class="dropdown-item fs-5 py-3" href="/agregar"><i class="fas fa-plus-circle text-success me-2"></i>Añadir Producto</a></li>
-                <li><a class="dropdown-item fs-5 py-3" href="/editar"><i class="fas fa-edit text-warning me-2"></i>Actualizar Producto</a></li>
-                <li><a class="dropdown-item fs-5 py-3" href="/buscar"><i class="fas fa-search text-primary me-2"></i>Buscar Producto</a></li>
-                <li><a class="dropdown-item fs-5 py-3" href="/mostrar"><i class="fas fa-list text-info me-2"></i>Mostrar Todo</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item fs-5 py-3 text-danger" href="/eliminar/0"><i class="fas fa-trash text-danger me-2"></i>Eliminar Producto</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- TABLA PRODUCTOS -->
-    <div class="col-12">
-        {% if productos %}
-        <div class="table-responsive">
-            <table class="table table-hover table-bordered shadow-sm">
-                <thead class="table-success">
-                    <tr>
-                        <th class="text-center">#</th>
-                        <th>PRODUCTO</th>
-                        <th class="text-center">CANT.</th>
-                        <th class="text-center">PRECIO</th>
-                        <th class="text-center">TOTAL</th>
-                        <th class="text-center">ACCIONES</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for p in productos %}
-                    <tr>
-                        <td class="text-center fw-bold">{{ p.id_producto }}</td>
-                        <td><strong>{{ p.nombre|title }}</strong></td>
-                        <td class="text-center">{{ p.cantidad }}</td>
-                        <td class="text-center">${{ "%.2f"|format(p.precio) }}</td>
-                        <td class="text-center text-success fw-bold">${{ "%.2f"|format(p.cantidad * p.precio) }}</td>
-                        <td class="text-center">
-                            <div class="btn-group" role="group">
-                                <a href="/eliminar/{{ p.id_producto }}" 
-                                   class="btn btn-danger btn-sm"
-                                   onclick="return confirm('¿Eliminar {{ p.nombre }}?')">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="alert alert-success mt-3">
-            <i class="fas fa-check-circle me-2"></i>
-            ✅ {{ total_productos }} productos | Total inventario: ${{ "%.2f"|format(valor_total) }}
-        </div>
-        {% else %}
-        <div class="alert alert-info text-center py-5 shadow-lg">
-            <i class="fas fa-inbox fa-3x mb-3 text-muted"></i>
-            <h2>📦 Inventario vacío</h2>
-            <p class="lead">¡Usa el submenú 🚀 OPERACIONES INVENTARIO para agregar productos!</p>
-        </div>
-        {% endif %}
-    </div>
-</div>
-{% endblock %}
