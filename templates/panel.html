@@ -1,0 +1,11 @@
+<h2>Panel del Sistema</h2>
+
+<a href="/logout">Cerrar sesión</a>
+
+<h3>Productos</h3>
+
+<ul>
+{% for p in productos %}
+    <li>{{ p.nombre }} - ${{ p.precio }} (Stock: {{ p.cantidad }})</li>
+{% endfor %}
+</ul>
